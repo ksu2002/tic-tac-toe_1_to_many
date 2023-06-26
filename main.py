@@ -58,15 +58,18 @@ def handle_client(client_socket, client_address, clients):
             continue
            ## client_socket.close()
            '''
-        data = client_socket.recv(2)
-
+       # data = client_socket.recv(2)
+        try:
+            data = client_socket.recv(2)
+            print(data.decode())
+        except ConnectionAbortedError:
+            print("Соединение было разорвано хост-компьютером")
         index = clients.index(client_socket)
         if not data:
             break
         print(f'Клиент {client_address} отправил цифру: {data.decode()}, {index}, {len(clients)}')
         ##   index = clients.index(client_socket)
         if index % 2 == 0 and index + 1 < len(clients):
-
             print(f'2')
             other_client_socket = clients[index + 1]
             other_client_socket.sendall(data)
